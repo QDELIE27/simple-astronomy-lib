@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    
+    environment {
+        JAVA_HOME='/usr/lib/jvm/java-1.11.0-openjdk-amd64'
+    }
 
     stages {
         stage('Build') {
@@ -9,6 +13,7 @@ pipeline {
 
                 // Run Maven on a Unix agent.
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
+                
 
                 // To run Maven on a Windows agent, use
                 // bat "mvn -Dmaven.test.failure.ignore=true clean package"
