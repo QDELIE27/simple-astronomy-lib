@@ -28,6 +28,14 @@ pipeline {
                     junit '**/target/surefire-reports/TEST-*.xml'
                     archiveArtifacts 'target/*.jar'
                 }
+                
+                always {
+                    recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
+                    recordIssues enabledForFailure: true, tool: checkStyle()
+                    recordIssues enabledForFailure: true, tool: spotBugs()
+                    recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
+                    recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+                }
             }
         }
     }
