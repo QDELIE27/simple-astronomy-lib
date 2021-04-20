@@ -7,6 +7,25 @@
     <groupId>com.bradsbrain</groupId>
     <artifactId>SimpleAstronomyLib</artifactId>
     <version>0.3.0</version>
+	
+	<reporting>
+    		<plugins>
+      			<plugin>
+        			<groupId>org.codehaus.mojo</groupId>
+        			<artifactId>findbugs-maven-plugin</artifactId>
+        			<version>3.0.6-SNAPSHOT</version>
+      			</plugin>
+	 		<plugin>
+		 		<groupId>com.github.spotbugs</groupId>
+		 		<artifactId>spotbugs-maven-plugin</artifactId>
+		 		<version>3.1.8</version>
+	    		</plugin>
+	    		<plugin>
+		   		 <groupId>org.apache.maven.plugins</groupId>
+		    		<artifactId>maven-pmd-plugin</artifactId>
+	    		</plugin>
+    		</plugins>
+  	</reporting>
 
     <dependencies>
         <dependency>
@@ -34,17 +53,17 @@
                 </configuration>
             </plugin>
             <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-				<execution>
-					<id>attach-sources</id>
-					<goals>
-						<goal>jar</goal>
-					</goals>
-				</execution>
-				</executions>
-		    </plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-source-plugin</artifactId>
+		<executions>
+			<execution>
+				<id>attach-sources</id>
+				<goals>
+					<goal>jar</goal>
+				</goals>
+			</execution>
+		</executions>
+		</plugin>
 		    <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
