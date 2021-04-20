@@ -6,17 +6,11 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
+        stage('Package') {
             steps {
-                // Get some code from a GitHub repository
                 git 'https://github.com/QDELIE27/simple-astronomy-lib'
-                
-                // Run Maven on a Unix agent.
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
-                
-
-                // To run Maven on a Windows agent, use
-                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+            	sh 'mvn clean'
+                sh 'mvn package' 
             }
         }
         stage('Analyse') {
@@ -26,25 +20,26 @@ pipeline {
                 sh 'mvn pmd:pmd' 
             }
         }
-    
-
-          post {
-                // If Maven was able to run the tests, even if some of the test
-                // failed, record the test results and archive the jar file.
-                success {
-                    archiveArtifacts 'target/*.jar'
-                }
-                
-                always {
-                    junit '**/target/surefire-reports/TEST-*.xml'
-                    
-                    recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
-                    recordIssues enabledForFailure: true, tool: checkStyle()
-                    recordIssues enabledForFailure: true, tool: spotBugs()
-                    recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
-                    recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
-                }
+        stage('Publish') {
+            steps {
+                archiveArtifacts '/target/*.jar'
             }
         }
-}
+        
+    }
+    
+    post {
+        always {
+            junit '**/surefire-reports/*.xml'
+            
+			recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
+            recordIssues enabledForFailure: true, tool: checkStyle()
+            recordIssues enabledForFailure: true, tool: spotBugs()
+            recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
+            recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+            
+        }
 
+    }
+
+}
