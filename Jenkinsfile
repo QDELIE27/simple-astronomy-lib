@@ -26,7 +26,7 @@ pipeline {
                 sh 'mvn pmd:pmd' 
             }
         }
-    }
+    
 
           post {
                 // If Maven was able to run the tests, even if some of the test
